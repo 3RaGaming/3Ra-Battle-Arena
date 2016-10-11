@@ -1,6 +1,15 @@
 --Battle Arena 0.1.4
 --A 3Ra Gaming creation
 --A Halo inspired concept
+
+if not scenario then scenario = {} end
+if not scenario.config then scenario.config = {} end
+--Starting Variables
+require "config"
+require "locale/utils/event"
+require "locale/utils/admin"
+require "locale/utils/undecorator"
+
 script.on_event(defines.events.on_player_created, function(event)
   local player = game.players[event.player_index]
 	player.print({"msg-intro1"})
