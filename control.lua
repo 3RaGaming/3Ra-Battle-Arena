@@ -10,19 +10,19 @@ end)
 
 script.on_event(defines.events.on_player_joined_game, function(event)
   local player = game.players[event.player_index]
-       local player_on_team = false
-      for k, check_player in pairs (global.online_players) do
-        if player == check_player then
-          player_on_team = true
-          break
-        end
-      end
-      
-      if not player_on_team then
-        table.insert(global.online_players, player)
-        set_player(player, #global.online_players)
-      end
-      
+	   local player_on_team = false
+	  for k, check_player in pairs (global.online_players) do
+		if player == check_player then
+		  player_on_team = true
+		  break
+		end
+	  end
+	  
+	  if not player_on_team then
+		table.insert(global.online_players, player)
+		set_player(player, #global.online_players)
+	  end
+	  
 end)
 
 script.on_event(defines.events.on_player_left_game, function(event)
@@ -46,7 +46,7 @@ script.on_event(defines.events.on_entity_died, function(event)
 	local pos = entity.surface.find_non_colliding_position(
 		"steel-chest", entity.position, 8, 1)
 		if not pos then return end
-    
+	
 		local grave = entity.surface.create_entity{
 		name="steel-chest", position=pos, force="neutral", spill=true}
 		if protective_mode then
@@ -123,7 +123,7 @@ end)
 
 function create_teams()
   for k, force in pairs(global.force_list) do
-    game.create_force(force.name)
+	game.create_force(force.name)
   end
 end
 
@@ -153,7 +153,7 @@ function set_zoom()
 end
 
 function show_health()
-    for k, player in pairs(game.players) do
+	for k, player in pairs(game.players) do
 		if player.connected then
 			if player.character then
 				if player.character.health == nil then return end
@@ -173,21 +173,21 @@ function show_health()
 						end
 					end
 				end
-            end
-        end
-    end 
+			end
+		end
+	end 
 end	
 
 function set_player(player,k)
   local index = math.ceil(k/global.players_per_team)
   if global.force_list[index] then
-    player.force = global.force_list[index].name
-    set_character(player, player.force)
-    local c = global.force_list[index].color
-    player.color = {r = c[1], g = c[2], b = c[3], a = c[4]}
+	player.force = global.force_list[index].name
+	set_character(player, player.force)
+	local c = global.force_list[index].color
+	player.color = {r = c[1], g = c[2], b = c[3], a = c[4]}
 	player.print("Welcome to the "..player.force.name.." team")
-    give_equipment(player)
-    give_starting_inventory(player)
+	give_equipment(player)
+	give_starting_inventory(player)
   else
   player.print({"couldnt-place-on-team"})
   end
@@ -196,30 +196,30 @@ end
 function set_character(player, force)
   if player.connected then
   player.character_reach_distance_bonus = 2
-    player.force = force
-    local character = player.surface.create_entity{name = "player", position = player.surface.find_non_colliding_position("player", player.force.get_spawn_position(player.surface), 10, 2), force = force}
-    player.set_controller{type = defines.controllers.character, character = character}
+	player.force = force
+	local character = player.surface.create_entity{name = "player", position = player.surface.find_non_colliding_position("player", player.force.get_spawn_position(player.surface), 10, 2), force = force}
+	player.set_controller{type = defines.controllers.character, character = character}
   end
 end
 
 function give_starting_inventory(player)
   if player.connected then
-    if player.character then
-      for k, item in pairs (global.starting_inventories) do
-        player.insert{name = item.name, count = item.count}
-      end
-    end
+	if player.character then
+	  for k, item in pairs (global.starting_inventories) do
+		player.insert{name = item.name, count = item.count}
+	  end
+	end
   end
 end
 
 function give_equipment(player)
   if player.connected then
-      player.insert{name="power-armor-mk2", count = 1}
-      local p_armor = player.get_inventory(5)[1].grid
-      p_armor.put({name = "fusion-reactor-equipment"})
-      p_armor.put({name = "exoskeleton-equipment"})
-      p_armor.put({name = "exoskeleton-equipment"})
-    end
+	  player.insert{name="power-armor-mk2", count = 1}
+	  local p_armor = player.get_inventory(5)[1].grid
+	  p_armor.put({name = "fusion-reactor-equipment"})
+	  p_armor.put({name = "exoskeleton-equipment"})
+	  p_armor.put({name = "exoskeleton-equipment"})
+	end
   end
   
 function format_time(ticks)
@@ -356,14 +356,14 @@ global.force_list =
   {name = "Cyan", color = {0.1, 0.9, 0.9, 0.8}}
 }
 global.starting_inventories = 
-    {
-      {name = "combat-shotgun", count = 1},
+	{
+	  {name = "combat-shotgun", count = 1},
 	  {name = "steel-axe", count = 1},
 	  {name = "submachine-gun", count = 1},
-      {name = "grenade", count=5},
-      {name = "poison-capsule", count=5},
+	  {name = "grenade", count=5},
+	  {name = "poison-capsule", count=5},
 	  {name = "land-mine", count=5},
 	  {name = "firearm-magazine", count=20},
 	  {name = "piercing-shotgun-shell", count=20},
-    }
+	}
 end
